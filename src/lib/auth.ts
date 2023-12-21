@@ -1,17 +1,17 @@
-import { PrismaAdapter } from "@auth/prisma-adapter";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { db } from "./db";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcrypt";
-import type { NextAuthConfig } from "next-auth";
+import type { NextAuthOptions } from "next-auth";
 
-export const authOptions: NextAuthConfig = {
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
-  secret: process.env.AUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
   },
   pages: {
-    signIn: "/auth/login",
+    signIn: "/",
   },
   providers: [
     CredentialsProvider({
@@ -21,12 +21,12 @@ export const authOptions: NextAuthConfig = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials.email || !credentials?.password) {
+        if (!credentials?.email || !credentials?.password) {
           return null;
         }
         const user = await db.user.findUnique({
           where: {
-            email: credentials.email as string,
+            email: credentials.email,
           },
         });
         if (!user) {
@@ -34,7 +34,7 @@ export const authOptions: NextAuthConfig = {
         }
         if (user.password) {
           const isPasswordValid = await compare(
-            credentials.password as string,
+            credentials.password,
             user.password
           );
           if (!isPasswordValid) {
@@ -50,4 +50,26 @@ export const authOptions: NextAuthConfig = {
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
+        token.role = user.role;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      return {
+        ...session,
+        user: {
+          id: token.id,
+          name: token.name,
+          email: token.email,
+          role: token.role,
+        },
+      };
+    },
+  },
 };
