@@ -30,6 +30,8 @@ const TextInput = ({
   icon,
   type = "text",
   description,
+  border,
+  white,
   className,
 }: InputProps) => {
   return (
@@ -37,15 +39,16 @@ const TextInput = ({
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem className={`!mt-5 flex flex-col items-start w-full`}>
-          <FormLabel
-            htmlFor={name}
-            className="text-sm font-medium text-gray-800"
-          >
+        <FormItem className={`!mt-5 ${className}`}>
+          <FormLabel htmlFor={name} className="text-base font-light">
             {label}
           </FormLabel>
           <FormControl>
-            <div className="px-2 py-0.5 rounded-lg border-2 border-green-100 w-full">
+            <div
+              className={`px-2 py-0.5 rounded ${
+                white ? " bg-white" : "bg-gray-200"
+              }  ${border ? "border-2 border-green-200" : ""} `}
+            >
               <div className="flex items-center justify-between">
                 {icon && (
                   <Image
@@ -53,13 +56,15 @@ const TextInput = ({
                     height={16}
                     width={16}
                     alt="search"
-                    className="ml-4 invert"
+                    className="ml-4 invert dark:invert-0"
                   />
                 )}
 
                 <Input
                   type={type}
-                  className="bg-white border-none shadow-none outline-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 placeholder:text-gray-400 placeholder:font-light"
+                  className={`${
+                    white ? "bg-white" : "bg-gray-200"
+                  }  text-primary border-none shadow-none outline-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 placeholder:text-gray-400 placeholder:font-light`}
                   placeholder={placeholder}
                   {...field}
                 />

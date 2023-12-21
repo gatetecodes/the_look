@@ -19,27 +19,39 @@ model User {
 }
 
 model Patient {
-  id            Int      @id @default(autoincrement())
-  name          String
-  email         String
-  phone         String
-  diagnosis     String
-  glass         Glass    @relation(fields: [glassId], references: [id])
-  glassId       Int
-  timeForPickup DateTime
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String
+  phone       String
+  dateOfBirth String
+  address     String
+  rightEye    Json
+  leftEye     Json
+  orders      Order[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
 }
 
 model Glass {
-  id         Int       @id @default(autoincrement())
-  name       String
-  category   Category  @relation(fields: [categoryId], references: [id])
-  categoryId Int
-  price      Float
-  patients   Patient[]
+  id           Int      @id @default(autoincrement())
+  type         String
+  category     String
+  cylinder     Float
+  sphere       Float
+  purchaseCost Float
+  purchaseDate DateTime
+  quantity     Int
+  orders       Order[]
 }
 
-model Category {
-  id      Int     @id @default(autoincrement())
-  name    String
-  glasses Glass[]
+model Order {
+  id            Int      @id @default(autoincrement())
+  patient       Patient  @relation(fields: [patientId], references: [id])
+  patientId     Int
+  glass         Glass    @relation(fields: [glassId], references: [id])
+  glassId       Int
+  timeForPickup DateTime
+  orderQty      Int
+  pricePerGlass Float
+  totalPrice    Float
 }
