@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   UserSquareIcon,
   Settings2Icon,
+  ShoppingBasketIcon,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -16,15 +17,21 @@ const MainNavLinks = [
     icon: <LayoutDashboard size={30} />,
   },
   {
+    name: "Glasses",
+    path: "/dashboard/glasses",
+    icon: <GlassesIcon size={30} />,
+  },
+  {
     name: "Patients",
     path: "/dashboard/patients",
     icon: <UserSquareIcon size={30} />,
   },
   {
-    name: "Glasses",
-    path: "/dashboard/glasses",
-    icon: <GlassesIcon size={30} />,
+    name: "Orders",
+    path: "/dashboard/orders",
+    icon: <ShoppingBasketIcon size={30} />,
   },
+
   {
     name: "Settings",
     path: "/dashboard/settings",
@@ -39,13 +46,13 @@ export function MainNav({
   const pathname = usePathname();
 
   return (
-    <nav className={cn("flex flex-col gap-5", className)} {...props}>
+    <nav className={cn("flex flex-col gap-8", className)} {...props}>
       {MainNavLinks.map((link) => (
         <Link
           key={link.name}
           href={link.path}
           className={cn(
-            "font-medium transition-colors flex items-center justify-start gap-3 text-lg",
+            "font-medium transition-colors flex items-center justify-start gap-5 text-lg",
             pathname === link.path && "text-primary"
           )}
         >

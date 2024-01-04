@@ -58,13 +58,6 @@ export async function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <LogoutButton
-            signOut={async () => {
-              "use server";
-              await signOut({
-                redirect: true,
-                callbackUrl: "/",
-              });
-            }}
           />
 
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
