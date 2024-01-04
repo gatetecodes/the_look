@@ -95,13 +95,13 @@ export const columns: ColumnDef<IPatient>[] = [
         <div
           className={`${
             value === "WAITING_FOR_GLASSES"
-              ? "bg-orange-100 text-orange-400"
+              ? "bg-amber-50 text-amber-400 border-2 border-amber-100"
               : value === "GLASSES_READY"
-              ? "bg-sky-100 text-sky-500"
+              ? "bg-sky-50 text-sky-500 border-2 border-sky-100 "
               : value === "GLASSES_PICKED_UP"
-              ? "bg-green-100 text-green-600"
+              ? "bg-green-50 text-green-500 border-2 border-green-100"
               : ""
-          } rounded py-1 px-3 capitalize text-sm`}
+          } rounded py-1 px-3 capitalize text-sm font-semibold`}
         >
           {value.replaceAll("_", " ").toLowerCase()}
         </div>
