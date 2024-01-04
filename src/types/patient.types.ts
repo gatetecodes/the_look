@@ -1,3 +1,5 @@
+import { ServiceStatus } from "@prisma/client";
+
 export interface IEyeDiagnosis {
   sphere: number;
   cylinder: number;
@@ -14,6 +16,7 @@ export interface IPatient {
   address: string;
   rightEye: IEyeDiagnosis;
   leftEye: IEyeDiagnosis;
+  status: ServiceStatus;
   createdAt: string;
   updatedAt: string;
 }

@@ -10,6 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ServiceStatus {
+  WAITING_FOR_GLASSES
+  GLASSES_READY
+  GLASSES_PICKED_UP
+}
+
 model User {
   id       Int    @id @default(autoincrement())
   email    String @unique
@@ -19,7 +25,7 @@ model User {
 }
 
 model Patient {
-  id          Int      @id @default(autoincrement())
+  id          Int           @id @default(autoincrement())
   name        String
   email       String
   phone       String
@@ -27,9 +33,10 @@ model Patient {
   address     String
   rightEye    Json
   leftEye     Json
+  status      ServiceStatus @default(WAITING_FOR_GLASSES)
   orders      Order[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now()) @updatedAt
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now()) @updatedAt
 }
 
 model Glass {
